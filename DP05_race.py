@@ -1,6 +1,7 @@
 
 import requests
 import pandas as pd
+import openpyxl
 
 places = [
     {"name": "Chicago", "code": "1600000US1714000"},
@@ -143,4 +144,4 @@ for place in places:
         dfs.append(city_df_race)
 
 final_df = pd.concat(dfs, ignore_index=True)
-print(final_df)
+final_df.to_excel('race_data.xlsx', index=False)
