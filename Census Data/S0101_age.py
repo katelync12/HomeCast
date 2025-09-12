@@ -38,17 +38,21 @@ for place in places:
     }
     for year in years:
         if year == 2020:
-            url = f"https://api.census.gov/data/2020/acs/acs5/subject?get=group(S0101)&ucgid=1600000US3651000&key=183f61b90d9d1c762883d948079890009c6d3d34"
+            url = f"https://api.census.gov/data/2020/acs/acs5/subject?get=group(S0101)&ucgid={place['code']}&key=183f61b90d9d1c762883d948079890009c6d3d34"
         else:
             url = f"https://api.census.gov/data/{year}/acs/acs1/subject?get=group(S0101)&ucgid={place['code']}&key=183f61b90d9d1c762883d948079890009c6d3d34"
         response = requests.get(url)
-        print(response)
         data = response.json()
+        print(response)
         df = pd.DataFrame(data[1:], columns=data[0])
         city_df_race = df[['S0101_C01_001E', 'S0101_C01_002E', 'S0101_C01_003E', 'S0101_C01_004E', 'S0101_C01_005E', 'S0101_C01_006E', 'S0101_C01_007E', 'S0101_C01_008E', 'S0101_C01_009E', 'S0101_C01_010E', 'S0101_C01_011E', 'S0101_C01_012E', 'S0101_C01_013E', 'S0101_C01_014E', 'S0101_C01_015E', 'S0101_C01_016E', 'S0101_C01_017E', 'S0101_C01_018E', 'S0101_C01_019E']]
         city_df_race = city_df_race.rename(columns=rename_dict)
         city_df_race['Year'] = year
         city_df_race['City'] = place['name']
+        if year in [2010, 2011, 2012, 2013, 2014, 2015, 2016]:
+            for key, value in rename_dict.items():
+                if key != 'S0101_C01_001E':
+                    city_df_race[value] = (city_df_race['Total Population'].astype(int) * (city_df_race[value].astype(float) / 100)).astype(int)
         dfs.append(city_df_race)
 
 final_df = pd.concat(dfs, ignore_index=True)

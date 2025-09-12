@@ -44,14 +44,19 @@ for place in places:
         dfs.append(city_df_race)
 
     # 2020 Configuration
-    url = f"https://api.census.gov/data/2020/acs/acs5/subject?get=group(S2503)&ucgid=1600000US3651000&key=183f61b90d9d1c762883d948079890009c6d3d34"
+    url = f"https://api.census.gov/data/2020/acs/acs5/subject?get=group(S2503)&ucgid={place['code']}&key=183f61b90d9d1c762883d948079890009c6d3d34"
     response = requests.get(url)
     data = response.json()
+    print(response)
     df = pd.DataFrame(data[1:], columns=data[0])
     city_df_race = df[['S2503_C01_001E','S2503_C01_002E', 'S2503_C01_003E', 'S2503_C01_004E', 'S2503_C01_005E', 'S2503_C01_006E', 'S2503_C01_007E', 'S2503_C01_008E', 'S2503_C01_009E', 'S2503_C01_010E', 'S2503_C01_011E', 'S2503_C01_012E', 'S2503_C01_013E', ]]
     city_df_race = city_df_race.rename(columns=rename_dict)
     city_df_race['Year'] = 2020
     city_df_race['City'] = place['name']
+    if year in [2010, 2011, 2012, 2013, 2014, 2015, 2016]:
+        for key, value in rename_dict.items():
+            if key != 'S2503_C01_001E' and key != 'S2503_C01_013E':
+                city_df_race[value] = (city_df_race['Total Households'].astype(int) * (city_df_race[value].astype(float) / 100)).astype(int)
     dfs.append(city_df_race)
 
 final_df = pd.concat(dfs, ignore_index=True)
