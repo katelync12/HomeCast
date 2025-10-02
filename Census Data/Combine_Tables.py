@@ -68,40 +68,40 @@ import pandas as pd
 
 
 
-quarter_age = pd.read_excel('less_age_data.xlsx', sheet_name='Sheet1')
+# quarter_age = pd.read_excel('less_age_data.xlsx', sheet_name='Sheet1')
 
-def expand_to_quarters_age(row_1, row_2):
-    median_1 = int(row_1['Total Population'])
-    median_2 = int(row_2['Total Population'])
+# def expand_to_quarters_age(row_1, row_2):
+#     median_1 = int(row_1['Total Population'])
+#     median_2 = int(row_2['Total Population'])
 
-    if median_1 == 0 or median_2 == 0:
-        return pd.DataFrame()  # Avoid division by zero
+#     if median_1 == 0 or median_2 == 0:
+#         return pd.DataFrame()  # Avoid division by zero
 
-    slope = (median_2 - median_1) / 4
-    quarter_incomes = [int(median_1 + slope * (i + 1)) for i in range(4)]
+#     slope = (median_2 - median_1) / 4
+#     quarter_incomes = [int(median_1 + slope * (i + 1)) for i in range(4)]
     
-    quarters = [f"{i+1}" for i in range(4)]
+#     quarters = [f"{i+1}" for i in range(4)]
     
-    data = {
-        'Total Population': quarter_incomes,
-        'City': [row_1['City']] * 4,
-        'Year': [f"{row_1['Year']}"] * 4,
-        'Quarter': quarters
-    }
+#     data = {
+#         'Total Population': quarter_incomes,
+#         'City': [row_1['City']] * 4,
+#         'Year': [f"{row_1['Year']}"] * 4,
+#         'Quarter': quarters
+#     }
     
-    return pd.DataFrame(data)
-df_new_age = []
-quarter_age = quarter_age.sort_values(by=['City', 'Year']).reset_index(drop=True)
-for i in range(len(quarter_age) - 1):
-    if (quarter_age.iloc[i]['City'] != quarter_age.iloc[i + 1]['City']):
-        continue  # Skip if not the same city
-    expanded = expand_to_quarters_age(quarter_age.iloc[i], quarter_age.iloc[i + 1])
-    if not expanded.empty:
-        df_new_age.append(expanded)
+#     return pd.DataFrame(data)
+# df_new_age = []
+# quarter_age = quarter_age.sort_values(by=['City', 'Year']).reset_index(drop=True)
+# for i in range(len(quarter_age) - 1):
+#     if (quarter_age.iloc[i]['City'] != quarter_age.iloc[i + 1]['City']):
+#         continue  # Skip if not the same city
+#     expanded = expand_to_quarters_age(quarter_age.iloc[i], quarter_age.iloc[i + 1])
+#     if not expanded.empty:
+#         df_new_age.append(expanded)
 
-df_new_age = pd.concat(df_new_age, ignore_index=True)
-df_new_age = df_new_age.sort_values(by=['City', 'Year', 'Quarter']).reset_index(drop=True)
-df_new_age.to_excel('expanded_age_data.xlsx', index=False)
+# df_new_age = pd.concat(df_new_age, ignore_index=True)
+# df_new_age = df_new_age.sort_values(by=['City', 'Year', 'Quarter']).reset_index(drop=True)
+# df_new_age.to_excel('expanded_age_data.xlsx', index=False)
 
 
 df_income_combined = pd.read_excel('interpolated_income_data.xlsx', sheet_name='Sheet1')
