@@ -1,0 +1,72 @@
+{
+  "Chicago": {
+    "order": [
+      2,
+      2,
+      0
+    ],
+    "seasonal_order": [
+      1,
+      1,
+      1,
+      4
+    ],
+    "aic": 512.9056068471436
+  },
+  "Houston": {
+    "order": [
+      2,
+      1,
+      2
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      4
+    ],
+    "aic": 514.7096949277195
+  },
+  "Los Angeles": {
+    "order": [
+      0,
+      0,
+      2
+    ],
+    "seasonal_order": [
+      1,
+      0,
+      1,
+      4
+    ],
+    "aic": 10.0
+  },
+  "New York": {
+    "order": [
+      2,
+      2,
+      0
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      4
+    ],
+    "aic": 587.0364457630286
+  },
+  "Phoenix": {
+    "order": [
+      0,
+      0,
+      2
+    ],
+    "seasonal_order": [
+      1,
+      0,
+      1,
+      4
+    ],
+    "aic": 132.20284301774228
+  }
+}
